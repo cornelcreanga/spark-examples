@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+sourceCompatibility = 1.17
+targetCompatibility = 1.17
+
+group = 'com.ccreanga.spark.examples'
+version = '1.0-SNAPSHOT'
+
+ext.versions = [
+        spark: "3.5.0",
+        awsv2: "2.20.32",
+        iceberg: "1.4.0",
+        config: "1.4.2",
+        javassist: "3.29.2-GA",
+        nessie: "0.71.1",
+        testcontainers: "1.19.1"
+]
+
+dependencies {
+    implementation("org.apache.spark:spark-core_2.12:${versions.spark}")
+    implementation("org.apache.spark:spark-sql_2.12:${versions.spark}")
+
+    implementation("ch.cern.sparkmeasure:spark-measure_2.12:0.23")
+
+
+    implementation("org.apache.iceberg:iceberg-api:${versions.iceberg}")
+    implementation("org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:${versions.iceberg}")
+    implementation("org.apache.iceberg:iceberg-core:${versions.iceberg}")
+
+
+    implementation("software.amazon.awssdk:s3:${versions.awsv2}")
+    implementation("software.amazon.awssdk:sts:${versions.awsv2}")
+    implementation("software.amazon.awssdk:kms:${versions.awsv2}")
+    implementation("software.amazon.awssdk:dynamodb:${versions.awsv2}")
+    implementation("software.amazon.awssdk:glue:${versions.awsv2}")
+
+    implementation("com.typesafe:config:${versions.config}")
+
+    implementation("org.javassist:javassist:${versions.javassist}")
+
+    implementation("org.projectnessie.nessie-integrations:nessie-spark-extensions-3.4_2.12:${versions.nessie}")
+
+    implementation("org.testcontainers:minio:${versions.testcontainers}")
+
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.20.0")
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    zip64 true
+}
