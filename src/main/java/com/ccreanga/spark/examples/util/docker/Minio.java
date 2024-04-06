@@ -5,7 +5,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 
 public class Minio {
 
-    static final String DEFAULT_IMAGE = "minio/minio:RELEASE.2023-09-04T19-57-37Z";
+    static final String DEFAULT_IMAGE = "minio/minio:RELEASE.2024-04-06T05-26-02Z";
     static final String HEALTH_ENDPOINT = "/minio/health/ready";
     public static final String MINIO_USER = "admin";
     public static final String MINIO_PASSWORD = "password";

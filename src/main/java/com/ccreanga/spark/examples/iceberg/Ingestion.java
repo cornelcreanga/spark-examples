@@ -40,6 +40,7 @@ public class Ingestion {
 
     public static void main(String[] args) throws Exception {
         setEnv("AWS_REGION", "us-west-1");
+//        setEnv("TESTCONTAINERS_RYUK_DISABLED", "true");
         ConfigParseOptions parseOptions = ConfigParseOptions.defaults().setAllowMissing(false);
         Config config = ConfigFactory.load("ingestion.conf", parseOptions, ConfigResolveOptions.defaults());
         String appName = config.getString("name");

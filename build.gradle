@@ -10,26 +10,28 @@ group = 'com.ccreanga.spark.examples'
 version = '1.0-SNAPSHOT'
 
 ext.versions = [
-        spark: "3.5.0",
-        awsv2: "2.20.32",
-        iceberg: "1.4.0",
+        sparkMajorVersion: "3.5",
+        scalaVersion: "2.13",
+        spark: "3.5.1",
+        awsv2: "2.25.24",
+        iceberg: "1.5.0",
         config: "1.4.2",
-        javassist: "3.29.2-GA",
-        nessie: "0.71.1",
-        testcontainers: "1.19.1"
+        javassist: "3.30.2-GA",
+        nessie: "0.79.0",
+        testcontainers: "1.19.7",
+        sparkmeasure:"0.24"
 ]
 
 dependencies {
-    implementation("org.apache.spark:spark-core_2.12:${versions.spark}")
-    implementation("org.apache.spark:spark-sql_2.12:${versions.spark}")
+    implementation("org.apache.spark:spark-core_${versions.scalaVersion}:${versions.spark}")
+    implementation("org.apache.spark:spark-sql_${versions.scalaVersion}:${versions.spark}")
 
-    implementation("ch.cern.sparkmeasure:spark-measure_2.12:0.23")
-
+    implementation("org.projectnessie.nessie-integrations:nessie-spark-extensions-${versions.sparkMajorVersion}_${versions.scalaVersion}:${versions.nessie}")
+    implementation("ch.cern.sparkmeasure:spark-measure_${versions.scalaVersion}:${versions.sparkmeasure}")
 
     implementation("org.apache.iceberg:iceberg-api:${versions.iceberg}")
-    implementation("org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:${versions.iceberg}")
+    implementation("org.apache.iceberg:iceberg-spark-runtime-${versions.sparkMajorVersion}_${versions.scalaVersion}:${versions.iceberg}")
     implementation("org.apache.iceberg:iceberg-core:${versions.iceberg}")
-
 
     implementation("software.amazon.awssdk:s3:${versions.awsv2}")
     implementation("software.amazon.awssdk:sts:${versions.awsv2}")
@@ -41,13 +43,11 @@ dependencies {
 
     implementation("org.javassist:javassist:${versions.javassist}")
 
-    implementation("org.projectnessie.nessie-integrations:nessie-spark-extensions-3.4_2.12:${versions.nessie}")
 
     implementation("org.testcontainers:minio:${versions.testcontainers}")
 
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation("org.apache.logging.log4j:log4j-api:2.20.0")
-
 
 }
 

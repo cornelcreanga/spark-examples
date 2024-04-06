@@ -1,5 +1,6 @@
 package com.ccreanga.spark.examples.util.rdd;
 
+import org.apache.spark.Dependency;
 import org.apache.spark.Partition;
 import org.apache.spark.SparkContext;
 import org.apache.spark.TaskContext;
@@ -7,8 +8,11 @@ import org.apache.spark.rdd.RDD;
 import scala.collection.Iterator;
 import scala.collection.JavaConverters;
 import scala.collection.mutable.ArrayBuffer;
+import scala.collection.mutable.Seq;
+import scala.jdk.CollectionConverters;
 import scala.reflect.ClassManifestFactory$;
 
+import java.util.Collections;
 import java.util.Map;
 
 
@@ -32,7 +36,7 @@ public class RDDGenerator<T> extends RDD<T> {
     }
 
     RDDGenerator(SparkContext sc, int numSlices, long numValues, Map<String, Object> context, RecordGenerator<T> recordGenerator, Class<T> type) {
-        super(sc, new ArrayBuffer<>(), ClassManifestFactory$.MODULE$.fromClass(type));
+        super(sc, CollectionConverters.<Dependency<?>>CollectionHasAsScala(Collections.emptyList()).asScala().toSeq(), ClassManifestFactory$.MODULE$.fromClass(type));
         this.numSlices = numSlices;
         this.numValues = numValues;
         this.context = context;
@@ -41,10 +45,10 @@ public class RDDGenerator<T> extends RDD<T> {
         slicesWithExtraItem = (int)numValues % numSlices;
     }
 
-
     @Override
     public Iterator<T> compute(Partition split, TaskContext context) {
-        return JavaConverters.asScalaIterator(((RDDGeneratorPartition<T>) split).values().iterator());
+        return CollectionConverters.IteratorHasAsScala(((RDDGeneratorPartition<T>) split).values().iterator()).asScala();
+        //return JavaConverters.asScalaIterator(((RDDGeneratorPartition<T>) split).values().iterator());
     }
 
     @Override
